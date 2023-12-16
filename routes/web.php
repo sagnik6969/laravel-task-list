@@ -2,81 +2,66 @@
 
 use Illuminate\Support\Facades\Route;
 
+class Task
+{
+  public function __construct(
+    public int $id,
+    public string $title,
+    public string $description,
+    public ?string $long_description,
+    public bool $completed,
+    public string $created_at,
+    public string $updated_at
+  ) {
+  }
+}
 
+$tasks = [
+  new Task(
+    1,
+    'Buy groceries',
+    'Task 1 description',
+    'Task 1 long description',
+    false,
+    '2023-03-01 12:00:00',
+    '2023-03-01 12:00:00'
+  ),
+  new Task(
+    2,
+    'Sell old stuff',
+    'Task 2 description',
+    null,
+    false,
+    '2023-03-02 12:00:00',
+    '2023-03-02 12:00:00'
+  ),
+  new Task(
+    3,
+    'Learn programming',
+    'Task 3 description',
+    'Task 3 long description',
+    true,
+    '2023-03-03 12:00:00',
+    '2023-03-03 12:00:00'
+  ),
+  new Task(
+    4,
+    'Take dogs for a walk',
+    'Task 4 description',
+    null,
+    false,
+    '2023-03-04 12:00:00',
+    '2023-03-04 12:00:00'
+  ),
+];
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/', function () use ($tasks) {
+  return view('index', [
+    'tasks' => $tasks
+  ]);
+}) -> name('tasks.index');
 
+Route::get('/{id}',function($id){
+   return 'one single task';
+}) -> name('tasks.show') ;
 
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-//view is a laravel function => going to cover later
-
-
-// Route::get('/', function () {
-//     return "Main page";
-//     // Main page is displayed
-// });
-
-// Route::get('/', function () {
-//     return view('index');
-// });
-
-
-//to pass data to a blade template
-Route::get('/', function () {
-    return view('index', [
-        'name' => 'Sagnik'
-    ]);
-});
-
-Route::get('/hello', function () {
-    return 'hello';
-})->name('hello');
-
-// dynamic routes
-Route::get('/greet/{name}', function ($name) {
-    return "Hello $name";
-});
-
-
-//Redirecting
-Route::get('/hallo', function () {
-    return redirect('/hello');
-});
-
-
-// Named routes 
-Route::get('/hellow', function () {
-    return redirect()->route('hello');
-    //   redirects to the route named hello;
-});
-
-
-
-
-// If no other route has been matched
-Route::fallback(function () {
-    return 'Route not found';
-});
-
-
-
-// php artisan route:list => gives a list of all the routes in the application
-
-// Here get is an http method
-// GET => fetch data
-// POST => store new data
-// PUT => modify an existing field
-// delete => delete data

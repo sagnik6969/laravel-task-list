@@ -8,9 +8,14 @@
 </head>
 
 <body>
-    @isset($name)
-    <h1>{{ $name }} Jana</h1>
-    @endisset
+    @forelse($tasks as $task)
+    <div>
+    <a href="{{ route('tasks.show',['id' => $task->id]) }}">{{ $task -> title }}</a>
+    </div>
+    <!-- <div>{{ $task -> title }}</div> -->
+    @empty
+    <div>No task found</div>
+    @endforelse
 </body>
 
 </html>
