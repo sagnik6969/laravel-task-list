@@ -8,7 +8,9 @@
 </head>
 
 <body>
-    <h1>Sagnik</h1>
+    @isset($name)
+    <h1>{{ $name }} Jana</h1>
+    @endisset
 </body>
 
 </html>

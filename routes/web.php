@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +24,21 @@ use Illuminate\Support\Facades\Route;
 //view is a laravel function => going to cover later
 
 
+// Route::get('/', function () {
+//     return "Main page";
+//     // Main page is displayed
+// });
+
+// Route::get('/', function () {
+//     return view('index');
+// });
+
+
+//to pass data to a blade template
 Route::get('/', function () {
-    return "Main page";
-    // Main page is displayed
+    return view('index', [
+        'name' => 'Sagnik'
+    ]);
 });
 
 Route::get('/hello', function () {
