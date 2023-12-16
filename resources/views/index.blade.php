@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+@section('title','The list of tasks');
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
-<body>
-    @forelse($tasks as $task)
-    <div>
+@section('content')
+@forelse($tasks as $task)
+<div>
     <a href="{{ route('tasks.show',['id' => $task->id]) }}">{{ $task -> title }}</a>
-    </div>
-    <!-- <div>{{ $task -> title }}</div> -->
-    @empty
-    <div>No task found</div>
-    @endforelse
-</body>
-
-</html>
+</div>
+<!-- <div>{{ $task -> title }}</div> -->
+@empty
+<div>No task found</div>
+@endforelse
+@endsection

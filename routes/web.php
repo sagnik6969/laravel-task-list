@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Response;
+// Response::HTTP_NOT_FOUND => this line needs above import
 use Illuminate\Support\Facades\Route;
 
 class Task
@@ -55,13 +57,30 @@ $tasks = [
   ),
 ];
 
-Route::get('/', function () use ($tasks) {
+
+Route::get('/', function () {
+  return redirect()->route('tasks.index');
+  // => route keyword is used to redirect ot named routes
+});
+
+Route::get('/tasks', function () use ($tasks) {
   return view('index', [
     'tasks' => $tasks
   ]);
-}) -> name('tasks.index');
+})->name('tasks.index');
 
-Route::get('/{id}',function($id){
-   return 'one single task';
-}) -> name('tasks.show') ;
+Route::get('/tasks/{id}', function ($id) use ($tasks) {
 
+  $task = collect($tasks)->firstWhere('id', $id);
+  // collect function converts an array to laravel collections
+  // php arrays are not object => main limitation.
+  // Thats why we cant add functions to them.
+
+  if (!$task) {
+    abort(Response::HTTP_NOT_FOUND);
+    // returns a 404 not found error
+    //need to import Illuminate\Http\Response;
+  }
+  return view('show', ['task' => $task]);
+
+})->name('tasks.show');
