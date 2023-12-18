@@ -4,77 +4,41 @@ use Illuminate\Http\Response;
 // Response::HTTP_NOT_FOUND => this line needs above import
 use Illuminate\Support\Facades\Route;
 
-class Task
-{
-  public function __construct(
-    public int $id,
-    public string $title,
-    public string $description,
-    public ?string $long_description,
-    public bool $completed,
-    public string $created_at,
-    public string $updated_at
-  ) {
-  }
-}
-
-$tasks = [
-  new Task(
-    1,
-    'Buy groceries',
-    'Task 1 description',
-    'Task 1 long description',
-    false,
-    '2023-03-01 12:00:00',
-    '2023-03-01 12:00:00'
-  ),
-  new Task(
-    2,
-    'Sell old stuff',
-    'Task 2 description',
-    null,
-    false,
-    '2023-03-02 12:00:00',
-    '2023-03-02 12:00:00'
-  ),
-  new Task(
-    3,
-    'Learn programming',
-    'Task 3 description',
-    'Task 3 long description',
-    true,
-    '2023-03-03 12:00:00',
-    '2023-03-03 12:00:00'
-  ),
-  new Task(
-    4,
-    'Take dogs for a walk',
-    'Task 4 description',
-    null,
-    false,
-    '2023-03-04 12:00:00',
-    '2023-03-04 12:00:00'
-  ),
-];
-
 
 Route::get('/', function () {
   return redirect()->route('tasks.index');
   // => route keyword is used to redirect ot named routes
 });
 
-Route::get('/tasks', function () use ($tasks) {
+Route::get('/tasks', function () {
+
+  $tasks = \App\Models\Task::all();
+  // get all the tasks from the database
+  $tasks = \App\Models\Task::latest()->get();
+  // to get the latest records
+  // Query builders used to build sql queries in php
+  // Query builders are followed by a ->get().
+  // We can write a chain of methods
+  //https://laravel.com/docs/10.x/queries
+
+  $tasks = \App\Models\Task::latest()
+    ->where('completed', true)
+    ->get();
+  // Example of query builders
+  // latest articles where completed column is true
+
   return view('index', [
     'tasks' => $tasks
   ]);
 })->name('tasks.index');
 
-Route::get('/tasks/{id}', function ($id) use ($tasks) {
+Route::get('/tasks/{id}', function ($id) {
 
-  $task = collect($tasks)->firstWhere('id', $id);
-  // collect function converts an array to laravel collections
-  // php arrays are not object => main limitation.
-  // Thats why we cant add functions to them.
+  // $task = \App\Models\Task::find($id);
+  //find() => helps us to find a record by primary key 
+  $task = \App\Models\Task::findOrFail($id);
+  //if the task is not found then the request will fail with a status code 404   
+
 
   if (!$task) {
     abort(Response::HTTP_NOT_FOUND);
