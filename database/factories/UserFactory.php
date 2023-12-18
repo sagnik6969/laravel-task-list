@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
+    // name of the factory => model_name followed bt 'factory' 
 {
     /**
      * The current password being used by the factory.
@@ -22,6 +23,7 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
+    // main definition tels laravel which data should be populated 
     {
         return [
             'name' => fake()->name(),
@@ -36,8 +38,11 @@ class UserFactory extends Factory
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static
+    // apart from basic definitions you can have factory variants
+    // changes a tiny set of attributes from the definition
+    // eg. this one is used to generate unverified users. 
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

@@ -6,6 +6,9 @@
 // 11. run `php artisan migrate` command to apply the migration to the database 
 // 12. migrations are also stored in migrations table in MySQL. In this way laravel wont apply same migration twice.
 // 13. to rollback the last migration `php artisan migrate:rollback`
+// 14. models are used to add or delete rows in a table.
+// 15. migration are used to create , alter, delete a table.
+
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
