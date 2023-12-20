@@ -14,12 +14,7 @@ Route::get('/tasks', function () {
   ]);
 })->name('tasks.index');
 
-
 Route::view('/tasks/create', 'create');
-// if we are not passing any data to view then we can use Route::view
-// order of the routes matter. routes defined before gets priority.
-
-
 
 Route::get('/tasks/{id}', function ($id) {
 
@@ -31,13 +26,34 @@ Route::get('/tasks/{id}', function ($id) {
   return view('show', ['task' => $task]);
 })->name('tasks.show');
 
-
-
 Route::post('/tasks', function (Illuminate\Http\Request $request) {
 
-  // dd('Form submitted successfully');
-  // dd => dump and die
-  dd($request->all());
-  // used to print all the submitted attributes
+  // to validate the data
+  $data = $request->validate([
+    'title' => 'required|max:255',
+    'description' => 'required',
+    'long_description' => 'required'
+  ]);
+  // only the attributes which are mentioned in the config array will be passed to $data.
+  // use | to separate the rules.
+  // If the validation passes the execution will continue. If the validation fails laravel will
+  // redirect the user to the previous page from where where request was made. and add the errors
+  // in a session variable called $errors.
+  // we can access the errors in the $errors variables in blade
+
+  // Create a new task model
+  $task = new \App\Models\Task();
+  $task->title = $data['title'];
+  $task->description = $data['description'];
+  $task->long_description = $data['long_description'];
+  $task->save(); // Saves the model to the database
+
+  // redirect to the newly created task
+  return redirect()->route('tasks.show', [
+    'id' => $task->id
+  ]);
+
+  
 
 })->name('tasks.store');
+
