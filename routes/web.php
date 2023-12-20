@@ -45,22 +45,45 @@ Route::post('/tasks', function (Illuminate\Http\Request $request) {
     'id' => $task->id
   ])
     ->with('success', 'Task created successfully');
-  // creates a session variable called 'success' and sets it to 'Task created successfully'
-  // when the next request will be made the variable 'success' will be deleted from session 
-
 })->name('tasks.store');
 
-// In laravel session starts when user first visits a website and end when 
-// the user closes the browser.
-// When you visit a laravel website for the first time it will store the session id in a cookie
-// in the subsequent requests laravel can recognize the the user through the session id 
-// stored in the cookie.
-// session data is stored inside /storage/framework/session
-// session data is both stored in browser and in server (/storage/framework/session)
-
-// we can configure how the session data is stored inside the server using /config/session.php
-// by default session data is stored in a file. 
-// the problem with files is that files cant be shared between servers.
-// se redis is preferred for storing session data.
 
 
+
+
+
+// Editing tasks
+
+Route::get('/tasks/{id}/edit', function ($id) {
+
+  $task = \App\Models\Task::findOrFail($id);
+
+  if (!$task) {
+    abort(Illuminate\Http\Response::HTTP_NOT_FOUND);
+  }
+  return view('edit', ['task' => $task]);
+})->name('tasks.edit');
+
+
+// PUT request to update something in the server
+Route::put('/tasks/{id}', function ($id, \Illuminate\Http\Request $request) {
+
+  $data = $request->validate([
+    'title' => 'required|max:255',
+    'description' => 'required',
+    'long_description' => 'required'
+  ]);
+
+  $task = \App\Models\Task::findOrFail($id);
+  $task->title = $data['title'];
+  $task->description = $data['description'];
+  $task->long_description = $data['long_description'];
+  $task->save();
+  // task->save() => here task.save() will automatically update the data in the database
+
+  return redirect()->route('tasks.show', [
+    'id' => $task->id
+  ])
+    ->with('success', 'Task edited successfully');
+
+})->name('task.update');
