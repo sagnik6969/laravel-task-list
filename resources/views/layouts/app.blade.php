@@ -19,6 +19,14 @@
             @yield('title')
             <!-- place holders where values will be put -->
         </h1>
+        @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                </button>
+            </div>
+        @endif
     </div>
     <div class="container">
         @yield('content')

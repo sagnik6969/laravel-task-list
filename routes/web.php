@@ -34,26 +34,33 @@ Route::post('/tasks', function (Illuminate\Http\Request $request) {
     'description' => 'required',
     'long_description' => 'required'
   ]);
-  // only the attributes which are mentioned in the config array will be passed to $data.
-  // use | to separate the rules.
-  // If the validation passes the execution will continue. If the validation fails laravel will
-  // redirect the user to the previous page from where where request was made. and add the errors
-  // in a session variable called $errors.
-  // we can access the errors in the $errors variables in blade
 
-  // Create a new task model
   $task = new \App\Models\Task();
   $task->title = $data['title'];
   $task->description = $data['description'];
   $task->long_description = $data['long_description'];
-  $task->save(); // Saves the model to the database
+  $task->save();
 
-  // redirect to the newly created task
   return redirect()->route('tasks.show', [
     'id' => $task->id
-  ]);
-
-  
+  ])
+    ->with('success', 'Task created successfully');
+  // creates a session variable called 'success' and sets it to 'Task created successfully'
+  // when the next request will be made the variable 'success' will be deleted from session 
 
 })->name('tasks.store');
+
+// In laravel session starts when user first visits a website and end when 
+// the user closes the browser.
+// When you visit a laravel website for the first time it will store the session id in a cookie
+// in the subsequent requests laravel can recognize the the user through the session id 
+// stored in the cookie.
+// session data is stored inside /storage/framework/session
+// session data is both stored in browser and in server (/storage/framework/session)
+
+// we can configure how the session data is stored inside the server using /config/session.php
+// by default session data is stored in a file. 
+// the problem with files is that files cant be shared between servers.
+// se redis is preferred for storing session data.
+
 
