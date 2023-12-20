@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
   return redirect()->route('tasks.index');
 });
@@ -48,12 +47,7 @@ Route::post('/tasks', function (Illuminate\Http\Request $request) {
 })->name('tasks.store');
 
 
-
-
-
-
 // Editing tasks
-
 Route::get('/tasks/{id}/edit', function ($id) {
 
   $task = \App\Models\Task::findOrFail($id);
@@ -63,7 +57,6 @@ Route::get('/tasks/{id}/edit', function ($id) {
   }
   return view('edit', ['task' => $task]);
 })->name('tasks.edit');
-
 
 // PUT request to update something in the server
 Route::put('/tasks/{id}', function ($id, \Illuminate\Http\Request $request) {
