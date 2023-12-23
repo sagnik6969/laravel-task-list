@@ -55,3 +55,9 @@ Route::put('/tasks/{task}', function (\App\Models\Task $task, \App\Http\Requests
     ->with('success', 'Task edited successfully');
 
 })->name('task.update');
+
+Route::delete('/tasks/{task}', function (\App\Models\Task $task) {
+  $task->delete();
+
+  return redirect()->route('tasks.index');
+})->name('tasks.destroy');
