@@ -11,14 +11,32 @@
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <title>Task list app</title>
+    <style>
+        .container {
+            max-width: 700px;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .header {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 
-<body class="py-4">
-    <div class="container">
-        <h1>
-            @yield('title')
-            <!-- place holders where values will be put -->
-        </h1>
+<body>
+    <div class="container mt-4">
+        <div class="header text-primary mb-4">
+            <h1 class="text-center">
+                @yield('title')
+                <!-- place holders where values will be put -->
+            </h1>
+        </div>
         @if (session()->has('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -27,14 +45,14 @@
                 </button>
             </div>
         @endif
+        <div>
+            @yield('content')
+            <!-- place holders where values will be put -->
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+        </script>
     </div>
-    <div class="container">
-        @yield('content')
-        <!-- place holders where values will be put -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-    </script>
 </body>
 
 </html>

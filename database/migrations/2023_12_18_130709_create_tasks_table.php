@@ -33,8 +33,8 @@ return new class extends Migration {
 
             $table->string('title');
             // varchar(255)
-            $table->string('description');
-            $table->string('long_description')->nullable();
+            $table->string('description', 256);
+            $table->string('long_description', 1024)->nullable();
             // by default columns are not nullable
             // to make them nullable use the above syntax.
             $table->boolean('completed')->default(false);

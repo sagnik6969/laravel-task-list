@@ -7,7 +7,8 @@ Route::get('/', function () {
 });
 
 Route::get('/tasks', function () {
-  $tasks = \App\Models\Task::all();
+  $tasks = \App\Models\Task::latest()->paginate();
+  // to paginate the results
   return view('index', [
     'tasks' => $tasks,
   ]);
@@ -61,3 +62,15 @@ Route::delete('/tasks/{task}', function (\App\Models\Task $task) {
 
   return redirect()->route('tasks.index');
 })->name('tasks.destroy');
+
+Route::put('/tasks/{task}/toggle-complete', function (\App\Models\Task $task) {
+  // $task->completed = !$task->completed;
+  // $task->save();
+  $task->toggleComplete();
+  return redirect()->back()->with('success', 'Task updated successfully');
+  // ->back() => redirected to the page from where the request is made.
+})->name('tasks.toggle-complete');
+
+
+// diffForHumans() => used to convert timestamps into human readable form in blade
+// @class(['text-danger' => true]) => used to apply the class conditionally.

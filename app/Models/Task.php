@@ -25,4 +25,12 @@ class Task extends Model
 
     // If you don't want to specify fillable you can also specify guarded
     // => all the properties except guarded will be mass assignable. 
+
+    // We can also add methods to models
+
+    function toggleComplete()
+    {
+        $this->completed = !$this->completed;
+        $this->save();
+    }
 }

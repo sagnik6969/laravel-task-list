@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // to create unverified users.   
 
 
-        \App\Models\Task::factory(20)->create();
+        \App\Models\Task::factory(40)->create();
 
         // php artisan db:seed => to store the fake records in the database. 
         // \App\Models\User::factory(10)->create();
