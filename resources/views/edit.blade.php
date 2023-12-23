@@ -3,7 +3,7 @@
 @section('title', 'Edit task')
 
 @section('content')
-    <form action="{{ route('task.update', ['id' => $task->id]) }}" method="POST">
+    <form action="{{ route('task.update', ['task' => $task->id]) }}" method="POST">
         @method('put')
         {{-- html doesnot allow put method but you can use put using blade directives in leveral --}}
         @csrf
